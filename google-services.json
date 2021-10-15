@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "268615691497",
+    "project_id": "stocktomeal",
+    "storage_bucket": "stocktomeal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268615691497:android:18aa8b18457b85c03a1478",
+        "android_client_info": {
+          "package_name": "comp5216.sydney.edu.au.stocktomeal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268615691497-cfojn2i8nqao8g3pqrrerlilgn4kh26f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDurlJayvqNURQGBjPg-7DRs72p0aL4GMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268615691497-cfojn2i8nqao8g3pqrrerlilgn4kh26f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
