@@ -18,6 +18,9 @@
             android:name=".SignUpActivity"
             android:exported="true" />
         <activity
+            android:name=".SearchResultActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

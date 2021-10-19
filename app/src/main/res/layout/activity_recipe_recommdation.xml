@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RecipeRecommdationActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/search_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_framework_layout"
+        android:ems="10"
+        android:layout_marginTop="1.75in"
+        android:layout_marginLeft="0.2in"
+        android:inputType="textPersonName"
+        android:padding="30px"
+        android:paddingStart="30px"
+        android:paddingLeft="30px"
+        android:paddingTop="30px"
+        android:paddingEnd="30px"
+        android:paddingRight="30px"
+        android:textColor="#999999"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="259dp" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="108dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/search_framework_layout"
+        android:layout_marginTop="1.75in"
+        android:layout_toEndOf="@+id/search_field"
+        android:text="Search" />
+
+</RelativeLayout>
