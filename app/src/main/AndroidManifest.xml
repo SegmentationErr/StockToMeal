@@ -20,6 +20,8 @@
         <activity
             android:name=".SearchResultActivity"
             android:exported="true" />
+        <activity android:name=".RecipeDetailActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
