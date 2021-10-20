@@ -11,85 +11,85 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Recipe Detail"
-        android:layout_marginTop="0.3in"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:padding="30px"
         android:background="@color/sandybrown"/>
 
-    <EditText
+    <TextView
         android:id="@+id/recipe_name_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="Recipe" />
 
-    <EditText
+    <TextView
         android:id="@+id/recipe_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginLeft="1in"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="5dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/ingredients_name_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_name_detail"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/recipe_text"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="25dp"
         android:text="Ingredients" />
 
-    <EditText
+    <TextView
         android:id="@+id/ingredients_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/recipe_text"
         android:layout_marginLeft="1in"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="5dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/flavour_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ingredients_name_details"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/ingredients_text"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="25dp"
         android:text="Flavours" />
 
-    <EditText
+    <TextView
         android:id="@+id/flavour_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ingredients_text"
         android:layout_marginLeft="1in"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="5dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/step_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/flavour_detail"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/flavour_text"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="25dp"
         android:text="Steps" />
 
-    <EditText
+    <TextView
         android:id="@+id/step_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/flavour_text"
         android:layout_marginLeft="1in"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="5dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/image_detail"
         android:layout_width="wrap_content"
-        android:layout_below="@id/step_detail"
+        android:layout_below="@id/step_text"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="25dp"
         android:text="Image" />
 
@@ -98,9 +98,9 @@
         android:layout_width="500px"
         android:layout_height="500px"
         app:srcCompat="@drawable/ic_launcher_background"
-        android:layout_below="@id/image_detail"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="25dp"
+        android:layout_below="@id/step_text"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="1in"
         />
 
     <Button
@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/recipe_image"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="0.5in"
         android:text="Add To Favourite List"
         />
