@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StockToMeal">
         <activity
+            android:name=".StockListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".StockDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FavoriteListActivity"
+            android:exported="true" />
+        <activity
             android:name=".RecipeRecommdationActivity"
             android:exported="true" />
         <activity
