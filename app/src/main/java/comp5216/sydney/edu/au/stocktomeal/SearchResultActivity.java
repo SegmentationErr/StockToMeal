@@ -10,26 +10,34 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class SearchResultActivity extends AppCompatActivity {
 
     private String keywords;
+    public RequestQueue requestQueue;
 
     // Layout components
     private ListView resultsView;
     private ArrayAdapter<String> itemsAdapter;
     private ArrayList<String> recipes;
+    private ArrayList<String> ids;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         // Property init
         recipes = new ArrayList<>();
+        ids = new ArrayList<>();
         resultsView = (ListView) findViewById(R.id.search_container);
         itemsAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, recipes);
@@ -54,24 +63,47 @@ public class SearchResultActivity extends AppCompatActivity {
                     RecipeRecommdationActivity.class) );
         }
 
-        // Use ingredients to filter the search result
-        db.collection("recipe").whereArrayContains("ingredients", keywords).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        searchAPIResult();
+        setupListViewListener();
+    }
+
+    private void searchAPIResult() {
+        requestQueue = Volley.newRequestQueue(this);
+
+        String apiKey = "c380ae7249f047898648b09c147204a4";
+
+        String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey="+
+                apiKey+"&ingredients="+keywords;
+
+        JsonArrayRequest jsonObjectRequest = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "-" + document.getData());
-                                recipes.add((String) document.get("name"));
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                recipes.add((String) jsonObject.get("title"));
+                                ids.add(String.valueOf(jsonObject.get("id")));
+                                //Log.d(TAG, (String) jsonObject.get("title"));
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                         resultsView.setAdapter(itemsAdapter);
                     }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.d(TAG, error.toString());
+                    }
                 });
 
-        setupListViewListener();
+        requestQueue.add(jsonObjectRequest);
+
     }
 
     public void setupListViewListener() {
@@ -84,7 +116,8 @@ public class SearchResultActivity extends AppCompatActivity {
                         RecipeDetailActivity.class);
                 if (intent != null) {
                     // put "extras" into the bundle for access in the edit activity
-                    intent.putExtra("recipe", name);
+                    int index = recipes.indexOf(name);
+                    intent.putExtra("id", ids.get(index));
                     intent.putExtra("search", keywords);
                     startActivity(intent);
                 }
