@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -90,6 +91,21 @@ public class RecipeDetailActivity extends AppCompatActivity {
         favourite = (Button) findViewById(R.id.like_it_button);
 
         getRecipeDetailsFromAPI();
+
+        favourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String recipeName = recipe.getText().toString();
+                Intent intent = new Intent(RecipeDetailActivity.this,
+                        FavoriteListActivity.class);
+                if (intent != null) {
+                    // put "extras" into the bundle for access in the detail activity
+                    intent.putExtra("recipeId", recipeId);
+                    intent.putExtra("recipeName", recipeName);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void getRecipeDetailsFromAPI() {
