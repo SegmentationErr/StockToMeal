@@ -6,9 +6,20 @@
     tools:context=".StockDetailActivity" >
 
     <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stock Detail"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:padding="30px"
+        android:background="@color/sandybrown"/>
+
+    <TextView
         android:id="@+id/stock_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
         android:textSize="25dp" />
 
     <TextView

@@ -1,117 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RecipeDetailActivity">
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RecipeDetailActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recipe Detail"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:padding="30px"
-        android:background="@color/sandybrown"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipe Detail"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:padding="30px"
+            android:background="@color/sandybrown"/>
 
-    <TextView
-        android:id="@+id/recipe_name_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:text="Recipe" />
+        <TextView
+            android:id="@+id/recipe_name_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:text="Recipe" />
 
-    <TextView
-        android:id="@+id/recipe_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginLeft="1in"
-        android:layout_marginTop="5dp" />
+        <TextView
+            android:id="@+id/recipe_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="1in"
+            android:layout_marginTop="5dp" />
 
-    <TextView
-        android:id="@+id/ingredients_name_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_text"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="25dp"
-        android:text="Ingredients" />
+        <TextView
+            android:id="@+id/ingredients_name_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recipe_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:text="Ingredients" />
 
-    <TextView
-        android:id="@+id/ingredients_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_text"
-        android:layout_marginLeft="1in"
-        android:layout_marginTop="5dp" />
+        <TextView
+            android:id="@+id/ingredients_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recipe_text"
+            android:layout_marginLeft="1in"
+            android:layout_marginTop="5dp" />
 
-    <TextView
-        android:id="@+id/flavour_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ingredients_text"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="25dp"
-        android:text="Flavours" />
+        <TextView
+            android:id="@+id/flavour_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ingredients_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:text="Flavours" />
 
-    <TextView
-        android:id="@+id/flavour_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ingredients_text"
-        android:layout_marginLeft="1in"
-        android:layout_marginTop="5dp" />
+        <TextView
+            android:id="@+id/flavour_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ingredients_text"
+            android:layout_marginLeft="1in"
+            android:layout_marginTop="5dp" />
 
-    <TextView
-        android:id="@+id/step_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/flavour_text"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="25dp"
-        android:text="Steps" />
+        <TextView
+            android:id="@+id/step_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/flavour_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:text="Steps" />
 
-    <TextView
-        android:id="@+id/step_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/flavour_text"
-        android:layout_marginLeft="1in"
-        android:layout_marginTop="5dp" />
+        <TextView
+            android:id="@+id/step_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/flavour_text"
+            android:layout_marginLeft="1in"
+            android:layout_marginTop="5dp" />
 
-    <TextView
-        android:id="@+id/image_detail"
-        android:layout_width="wrap_content"
-        android:layout_below="@id/step_text"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="25dp"
-        android:text="Image" />
+        <TextView
+            android:id="@+id/image_detail"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/step_text"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:text="Image" />
 
-    <ImageView
-        android:id="@+id/recipe_image"
-        android:layout_width="500px"
-        android:layout_height="500px"
-        app:srcCompat="@drawable/ic_launcher_background"
-        android:layout_below="@id/step_text"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="1in"
-        />
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="500px"
+            android:layout_height="500px"
+            app:srcCompat="@drawable/ic_launcher_background"
+            android:layout_below="@id/step_text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="1in"
+            />
 
-    <Button
-        android:id="@+id/like_it_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_image"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="0.5in"
-        android:text="Add To Favourite List"
-        />
+        <Button
+            android:id="@+id/like_it_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recipe_image"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="0.5in"
+            android:text="Add To Favourite List"
+            />
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</ScrollView>
