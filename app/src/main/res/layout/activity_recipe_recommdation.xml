@@ -12,7 +12,28 @@
         android:layout_height="wrap_content"
         android:background="@drawable/search_framework_layout"
         android:ems="10"
-        android:layout_marginTop="1.75in"
+        android:layout_marginTop="1.55in"
+        android:layout_marginLeft="0.2in"
+        android:inputType="textPersonName"
+        android:padding="30px"
+        android:paddingStart="30px"
+        android:paddingLeft="30px"
+        android:paddingTop="30px"
+        android:paddingEnd="30px"
+        android:paddingRight="30px"
+        android:text="Recipe components ..."
+        android:textColor="#999999"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="259dp" />
+
+    <EditText
+        android:id="@+id/allergy_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_framework_layout"
+        android:ems="10"
+        android:layout_marginTop="2in"
         android:layout_marginLeft="0.2in"
         android:inputType="textPersonName"
         android:padding="30px"
@@ -23,6 +44,7 @@
         android:paddingRight="30px"
         android:textColor="#999999"
         android:textSize="20sp"
+        android:text="Allergy ..."
         tools:layout_editor_absoluteX="37dp"
         tools:layout_editor_absoluteY="259dp" />
 
