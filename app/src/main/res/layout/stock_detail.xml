@@ -54,15 +54,16 @@
         android:id="@+id/stock_image"
         android:layout_width="500px"
         android:layout_height="500px"
-        app:srcCompat="@drawable/ic_launcher_background"
         android:layout_below="@id/stock_photo"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <Button
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/stock_image"
+        android:onClick="onEditClick"
         android:text="Edit" />
 
 </RelativeLayout>

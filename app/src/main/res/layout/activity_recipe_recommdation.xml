@@ -59,13 +59,6 @@
         android:text="Search" />
 
     <Button
-        android:id="@+id/add_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/stock_button"
-        android:text="Add food into stock" />
-
-    <Button
         android:id="@+id/stock_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

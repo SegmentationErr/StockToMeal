@@ -11,19 +11,30 @@
         android:id="@+id/title_stock_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stock list"
-        android:layout_marginTop="0.3in"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="0.3in"
+        android:background="@color/sandybrown"
         android:padding="30px"
-        android:background="@color/sandybrown"/>
+        android:text="Stock list" />
 
     <ListView
         android:id="@+id/lstView"
+        android:layout_width="390dp"
+        android:layout_height="560dp"
+        android:layout_below="@+id/title_stock_list"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:layout_below="@+id/title_stock_list"
-        android:layout_width="390dp"
-        android:layout_height="560dp" />
+        android:layout_marginEnd="8dp" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lstView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="0dp"
+        android:onClick="onAddButtonClick"
+        android:text="Add Food" />
 
 </RelativeLayout>
