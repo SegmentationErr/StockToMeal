@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.button);
         inputEmail = findViewById(R.id.existedEmail);
         inputPassword = findViewById(R.id.existedPassword);
+        inputPassword.setTypeface( Typeface.DEFAULT );
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
