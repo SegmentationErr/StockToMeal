@@ -97,7 +97,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Log.d(TAG, error.toString());
                     }
                 });
