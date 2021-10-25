@@ -50,7 +50,7 @@ public class StockDetailActivity extends AppCompatActivity {
     }
 
     public void onEditClick(View v) {
-        Intent intent = new Intent(StockDetailActivity.this, EditStock.class);
+        Intent intent = new Intent(StockDetailActivity.this, EditStockActivity.class);
         if (intent != null) {
             // put "extras" into the bundle for access in the detail activity
 

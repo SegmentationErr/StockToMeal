@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditStock extends AppCompatActivity {
+public class EditStockActivity extends AppCompatActivity {
 
     private EditText foodNameView;
     private EditText foodAmountView;

@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -94,7 +93,7 @@ public class StockListActivity extends AppCompatActivity {
     }
 
     public void onAddButtonClick(View v) {
-        Intent intent = new Intent(StockListActivity.this, EditStock.class);
+        Intent intent = new Intent(StockListActivity.this, EditStockActivity.class);
         if (intent != null) {
             // put "extras" into the bundle for access in the detail activity
 
