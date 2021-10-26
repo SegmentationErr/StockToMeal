@@ -111,6 +111,9 @@ public class StockListActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View view, final int position) {
+                Food model = (Food) adapter.getItem(position);
+                String foodName = model.getName();
+
                 //Toast.makeText(StockListActivity.this,"长按",Toast.LENGTH_SHORT).show();
                 Log.i("StockListActivity", "Long Clicked item " + position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(StockListActivity.this);
@@ -118,7 +121,10 @@ public class StockListActivity extends AppCompatActivity {
                         .setMessage(R.string.dialog_delete_msg)
                         .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogInterface, int i) {
+
                                  // Remove item from the database
+                                db.collection("food").document(foodName + "_" + userID).delete();
+
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

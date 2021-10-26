@@ -14,11 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import comp5216.sydney.edu.au.stocktomeal.Model.Food;
 
 
 public class StockDetailActivity extends AppCompatActivity {
@@ -33,19 +36,21 @@ public class StockDetailActivity extends AppCompatActivity {
     private TextView photo;
     private ImageView image;
     private Button edit;
+
     private FirebaseUser user;
     private String userID;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stock_detail);
 
-        // Get userID from database
+        //connect firestore
+        db = FirebaseFirestore.getInstance();
+        //connect auth, get current userID
         user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getEmail();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         stockName = getIntent().getStringExtra("stockName");
         stockAmount = getIntent().getStringExtra("stockAmount");
@@ -68,12 +73,11 @@ public class StockDetailActivity extends AppCompatActivity {
         if (intent != null) {
             // put "extras" into the bundle for access in the detail activity
 
-            // TODO 改成对应的数据！！！！！！！！！！
             String currentDate = new SimpleDateFormat("yyyy - MM - dd", Locale.getDefault())
                     .format(new Date());
-            intent.putExtra("foodName", "");
-            intent.putExtra("amount", "1");
-            intent.putExtra("expireDate", currentDate);
+            intent.putExtra("foodName", stockName);
+            intent.putExtra("amount", stockAmount);
+            intent.putExtra("expireDate", stockTime);
 
             mLauncher.launch(intent);
         }
@@ -90,7 +94,9 @@ public class StockDetailActivity extends AppCompatActivity {
                     String amount = result.getData().getStringExtra("amount");
                     String expireDate = result.getData().getStringExtra("expireDate");
 
-                    // TODO 更新对应数据！！！！！！！！！
+                    // Update data from database
+                    DocumentReference stockRef = db.collection("food").document(foodName + "_" + userID);
+                    stockRef.update("name",foodName,"amount",amount,"time",expireDate);
 
                     // Show notification of update
                     Toast.makeText(getApplicationContext(),
