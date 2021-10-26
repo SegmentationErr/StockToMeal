@@ -84,6 +84,7 @@ public class FavoriteListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String recipe = (String) itemsAdapter.getItem(position);
                 String ID = recipe.substring(0, 6);
+                String allery = "";
                 Log.d(TAG, "This is the recipe id: " + ID);
                 Intent intent = new Intent(FavoriteListActivity.this,
                         RecipeDetailActivity.class);
@@ -91,6 +92,7 @@ public class FavoriteListActivity extends AppCompatActivity {
                     // put "extras" into the bundle for access in the detail activity
                     intent.putExtra("id", ID);
                     //intent.putExtra("search", null);
+                    intent.putExtra("allery", allery);
                     startActivity(intent);
                 }
             }
