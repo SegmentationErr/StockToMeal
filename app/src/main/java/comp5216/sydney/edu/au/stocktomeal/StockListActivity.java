@@ -146,6 +146,7 @@ public class StockListActivity extends AppCompatActivity {
 
             String currentDate = new SimpleDateFormat("yyyy - MM - dd", Locale.getDefault())
                     .format(new Date());
+            intent.putExtra("foodImage", "");
             intent.putExtra("foodName", "");
             intent.putExtra("amount", "1");
             intent.putExtra("expireDate", currentDate);

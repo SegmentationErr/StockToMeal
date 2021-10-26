@@ -2,39 +2,79 @@ package comp5216.sydney.edu.au.stocktomeal;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditStockActivity extends AppCompatActivity {
 
+    private ImageView foodImageView;
     private EditText foodNameView;
     private EditText foodAmountView;
     private EditText expireDateView;
     private DatePickerDialog datePickerDialog;
+
+    MarshmallowPermission marshmallowPermission = new MarshmallowPermission(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_stock);
 
+        String foodImage = getIntent().getStringExtra("foodImage");
         String foodName = getIntent().getStringExtra("foodName");
         String amount = getIntent().getStringExtra("amount");
         String expireDate = getIntent().getStringExtra("expireDate");
 
+        foodImageView = (ImageView) findViewById(R.id.editFoodImageView);
         foodNameView = (EditText) findViewById(R.id.foodNameView);
         foodAmountView = (EditText) findViewById(R.id.editFoodAmount);
         expireDateView = (EditText) findViewById(R.id.expireDateView);
 
+        if (! foodImage.equals("")) {
+            foodImageView.setImageBitmap(Utils.stringToBitmap(foodImage));
+        }
         foodNameView.setText(foodName);
         foodAmountView.setText(amount);
         expireDateView.setText(expireDate);
 
+        setupImageViewListener();
         setupDateListener();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            foodImageView.setImageBitmap(imageBitmap);
+        }
+    }
+
+    private void setupImageViewListener() {
+        foodImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Check permissions
+                if (!marshmallowPermission.checkPermissionForCamera()) {
+                    marshmallowPermission.requestPermissionForCamera();
+                }  else {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, 1);
+                    }
+                }
+            }
+        });
     }
 
     /**
