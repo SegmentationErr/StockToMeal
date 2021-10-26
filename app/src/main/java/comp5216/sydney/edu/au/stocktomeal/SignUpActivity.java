@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import comp5216.sydney.edu.au.stocktomeal.Model.User;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -28,6 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        // Get Firestore database instance for "user" collection
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         signUpButton = findViewById(R.id.signUpButton);
         cancelButton = findViewById(R.id.cancelButton);
         inputEmail = findViewById(R.id.editTextEmail);
@@ -48,6 +52,9 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 }else {
+                                    // add new user to collection "user"
+                                    User user = new User(email,password);
+                                    db.collection("user").document(user.getUserID()).set(user);
                                     finish();
                                 }
                             }
