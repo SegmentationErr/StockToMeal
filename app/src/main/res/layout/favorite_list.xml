@@ -17,13 +17,18 @@
         android:padding="30px"
         android:background="@color/sandybrown"/>
 
-    <ListView
-        android:id="@+id/lstView"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Fav_RecyclerList"
+        android:layout_width="205dp"
+        android:layout_height="570dp"
         android:layout_below="@+id/title_favorite_list"
-        android:layout_width="390dp"
-        android:layout_height="560dp" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible" />
 
 </RelativeLayout>

@@ -21,7 +21,7 @@
         android:paddingTop="30px"
         android:paddingEnd="30px"
         android:paddingRight="30px"
-        android:text="Recipe components ..."
+        android:hint="Recipe components ..."
         android:textColor="#999999"
         android:textSize="20sp"
         tools:layout_editor_absoluteX="37dp"
@@ -44,7 +44,7 @@
         android:paddingRight="30px"
         android:textColor="#999999"
         android:textSize="20sp"
-        android:text="Allergy ..."
+        android:hint="Allergy ..."
         tools:layout_editor_absoluteX="37dp"
         tools:layout_editor_absoluteY="259dp" />
 
