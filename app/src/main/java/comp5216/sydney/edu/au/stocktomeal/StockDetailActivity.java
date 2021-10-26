@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.stocktomeal;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,9 +27,11 @@ import comp5216.sydney.edu.au.stocktomeal.Model.Food;
 
 public class StockDetailActivity extends AppCompatActivity {
 
+    private String stockImage;
     private String stockName;
     private String stockAmount;
     private String stockTime;
+    private String position;
 
     private TextView name;
     private TextView amount;
@@ -52,10 +55,13 @@ public class StockDetailActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getEmail();
 
+        stockImage = getIntent().getStringExtra("stockImage");
         stockName = getIntent().getStringExtra("stockName");
         stockAmount = getIntent().getStringExtra("stockAmount");
         stockTime = getIntent().getStringExtra("stockTime");
+        position = getIntent().getStringExtra("position");
 
+        image = (ImageView) findViewById(R.id.stock_image);
         name = (TextView) findViewById(R.id.stock_name);
         amount = (TextView) findViewById(R.id.stock_amount);
         expireDate = (TextView) findViewById(R.id.stock_expireDate);
@@ -66,15 +72,47 @@ public class StockDetailActivity extends AppCompatActivity {
         amount.setText("Amount:          " + stockAmount);
         expireDate.setText("Expire date:    " + stockTime);
         photo.setText("Photo:");
+        if (! stockImage.equals("")) {
+            image.setImageBitmap(Utils.stringToBitmap(stockImage));
+        }
+    }
+
+    public void onEditSaveClick(View v) {
+        // Read task name from text field
+        String currFoodName = name.getText().toString();
+        String currAmount = amount.getText().toString();
+        String currExpireDate = expireDate.getText().toString();
+
+        // Prepare data intent for sending it back
+        Intent intent = new Intent();
+
+        // Pass relevant data back as a result
+        if (image.getDrawable().getClass() == BitmapDrawable.class) {
+            intent.putExtra("foodImage",
+                    Utils.bitmapToString(((BitmapDrawable)image.getDrawable()).getBitmap()));
+        } else {
+            intent.putExtra("foodImage", "");
+        }
+        intent.putExtra("foodName", currFoodName);
+        intent.putExtra("amount", currAmount);
+        intent.putExtra("expireDate", currExpireDate);
+        intent.putExtra("position", position);
+
+        // Activity finishes OK, return the data
+        setResult(102, intent);     // Set result code and bundle data for response
+        finish();                       // Close the activity, pass data to parent
     }
 
     public void onEditClick(View v) {
         Intent intent = new Intent(StockDetailActivity.this, EditStockActivity.class);
         if (intent != null) {
             // put "extras" into the bundle for access in the detail activity
-
-            String currentDate = new SimpleDateFormat("yyyy - MM - dd", Locale.getDefault())
-                    .format(new Date());
+            if (image.getDrawable().getClass() == BitmapDrawable.class) {
+                intent.putExtra("foodImage",
+                        Utils.bitmapToString(((BitmapDrawable)image.getDrawable()).getBitmap()));
+            } else {
+                intent.putExtra("foodImage", "");
+            }
             intent.putExtra("foodName", stockName);
             intent.putExtra("amount", stockAmount);
             intent.putExtra("expireDate", stockTime);
@@ -90,17 +128,25 @@ public class StockDetailActivity extends AppCompatActivity {
                 // If user successfully edit item and send data back
                 if (result.getResultCode() == RESULT_OK) {
                     // Read all data from data intent sent from edit activity
-                    String foodName = result.getData().getStringExtra("foodName");
-                    String amount = result.getData().getStringExtra("amount");
-                    String expireDate = result.getData().getStringExtra("expireDate");
+                    String newFoodImage = result.getData().getStringExtra("foodImage");
+                    String newFoodName = result.getData().getStringExtra("foodName");
+                    String newAmount = result.getData().getStringExtra("amount");
+                    String newExpireDate = result.getData().getStringExtra("expireDate");
+
+                    if (! newFoodImage.equals("")) {
+                        image.setImageBitmap(Utils.stringToBitmap(newFoodImage));
+                    }
+                    name.setText("Food name:    " + newFoodName);
+                    amount.setText("Amount:          " + newAmount);
+                    expireDate.setText("Expire date:    " + newExpireDate);
 
                     // Update data from database
-                    DocumentReference stockRef = db.collection("food").document(foodName + "_" + userID);
-                    stockRef.update("name",foodName,"amount",amount,"time",expireDate);
+                    DocumentReference stockRef = db.collection("food").document(newFoodName + "_" + userID);
+                    stockRef.update("name",newFoodName,"amount",newAmount,"time",newExpireDate);
 
                     // Show notification of update
                     Toast.makeText(getApplicationContext(),
-                            "Updated: " + foodName,
+                            "Updated: " + newFoodName,
                             Toast.LENGTH_SHORT).show();
                 }
 

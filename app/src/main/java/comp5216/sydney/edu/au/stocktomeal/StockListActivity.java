@@ -92,6 +92,7 @@ public class StockListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Food model = (Food) adapter.getItem(position);
+                String stockImage = model.getPicture();
                 String stockName = model.getName();
                 String stockAmount = model.getAmount();
                 String stockTime = model.getTime();
@@ -100,12 +101,13 @@ public class StockListActivity extends AppCompatActivity {
                 Intent intent = new Intent(StockListActivity.this, StockDetailActivity.class);
                 if (intent != null) {
                     // put "extras" into the bundle for access in the detail activity
+                    intent.putExtra("stockImage", stockImage);
                     intent.putExtra("stockName", stockName);
                     intent.putExtra("stockAmount", stockAmount);
                     intent.putExtra("stockTime", stockTime);
                     intent.putExtra("position", position);
 
-                    startActivity(intent);
+                    mLauncher.launch(intent);
                 }
             }
 
@@ -159,9 +161,10 @@ public class StockListActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                // If user successfully edit item and send data back
-                if (result.getResultCode() == RESULT_OK) {
+                // Add item
+                if (result.getResultCode() == 101) {
                     // Read all data from data intent sent from edit activity
+                    String foodImage = result.getData().getStringExtra("foodImage");
                     String foodName = result.getData().getStringExtra("foodName");
                     String amount = result.getData().getStringExtra("amount");
                     String expireDate = result.getData().getStringExtra("expireDate");
@@ -172,14 +175,18 @@ public class StockListActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
 
                     // Add new data to database
-                    Food food = new Food(userID,foodName,amount,expireDate);
+                    Food food = new Food(userID,foodName,amount,foodImage,expireDate);
                     db.collection("food").document(foodName + "_" + userID).set(food);
 
-                }
+                } else if (result.getResultCode() == 102) {     // Edit item
+                    String foodImage = result.getData().getStringExtra("foodImage");
+                    String foodName = result.getData().getStringExtra("foodName");
+                    String amount = result.getData().getStringExtra("amount");
+                    String expireDate = result.getData().getStringExtra("expireDate");
+                    int position = result.getData().getIntExtra("position", -1);
 
-                // If user cancelled editing
-                else if (result.getResultCode() == RESULT_CANCELED) {
-                    // Nothing to do
+
+                    // TODO 更新item !!!!!!!!!!!!!!!!!!!!!!!!
                 }
             }
     );

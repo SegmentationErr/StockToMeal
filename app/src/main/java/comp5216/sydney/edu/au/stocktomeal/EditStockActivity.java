@@ -3,6 +3,7 @@ package comp5216.sydney.edu.au.stocktomeal;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -146,15 +147,21 @@ public class EditStockActivity extends AppCompatActivity {
         }
 
         // Prepare data intent for sending it back
-        Intent data = new Intent();
+        Intent intent = new Intent();
 
         // Pass relevant data back as a result
-        data.putExtra("foodName", foodName);
-        data.putExtra("amount", amount);
-        data.putExtra("expireDate", expireDate);
+        if (foodImageView.getDrawable().getClass() == BitmapDrawable.class) {
+            intent.putExtra("foodImage",
+                    Utils.bitmapToString(((BitmapDrawable)foodImageView.getDrawable()).getBitmap()));
+        } else {
+            intent.putExtra("foodImage", "");
+        }
+        intent.putExtra("foodName", foodName);
+        intent.putExtra("amount", amount);
+        intent.putExtra("expireDate", expireDate);
 
         // Activity finishes OK, return the data
-        setResult(RESULT_OK, data);     // Set result code and bundle data for response
+        setResult(101, intent);     // Set result code and bundle data for response
         finish();                       // Close the activity, pass data to parent
     }
 }

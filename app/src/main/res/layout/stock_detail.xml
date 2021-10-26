@@ -57,7 +57,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/stock_image"
+        android:layout_marginTop="101dp"
         android:onClick="onEditClick"
         android:text="Edit" />
+
+    <Button
+        android:id="@+id/saveEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="683dp"
+        android:onClick="onEditSaveClick"
+        android:text="Save" />
 
 </RelativeLayout>
