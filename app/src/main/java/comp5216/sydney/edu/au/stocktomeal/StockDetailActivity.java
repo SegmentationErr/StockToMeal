@@ -12,6 +12,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -27,11 +31,19 @@ public class StockDetailActivity extends AppCompatActivity {
     private TextView photo;
     private ImageView image;
     private Button edit;
+    private FirebaseUser user;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stock_detail);
+
+        // Get userID from database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getEmail();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         stockName = getIntent().getStringExtra("stock");
 

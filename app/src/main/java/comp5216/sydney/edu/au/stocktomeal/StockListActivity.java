@@ -1,36 +1,91 @@
 package comp5216.sydney.edu.au.stocktomeal;
 
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import comp5216.sydney.edu.au.stocktomeal.Model.Food;
+
 public class StockListActivity extends AppCompatActivity {
 
-    ListView listView;
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
+    public RecyclerView firestoreList;
+    public RecyclerView.LayoutManager layoutManager;
+
+    private FirestoreRecyclerAdapter adapter;
+    private FirebaseUser user;
+    private String userID;
+    private FirebaseFirestore db;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stock_list);
+        firestoreList = findViewById(R.id.RecyclerList);
 
+        db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getEmail();
+
+
+        Query query = db.collection("food").whereEqualTo("userID",userID);
+       FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
+                .setQuery(query,Food.class)
+                .build();
+
+       adapter = new FirestoreRecyclerAdapter<Food, StockViewHolder>(options) {
+           @NonNull
+           @Override
+           public StockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+               View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_item,parent,false);
+               return new StockViewHolder(view);
+           }
+
+           @Override
+           protected void onBindViewHolder(@NonNull StockViewHolder holder, int position, @NonNull Food model) {
+               holder.list_food.setText(model.getName());
+               holder.list_amount.setText(model.getAmount());
+           }
+       };
+
+        firestoreList.setHasFixedSize(true);
+        firestoreList.setLayoutManager(new LinearLayoutManager(this));
+        firestoreList.setAdapter(adapter);
+
+
+
+
+
+
+
+
+        /*
         // Reference the "listView" variable to the id "lstView" in the layout
         listView = (ListView) findViewById(R.id.lstView);
 
@@ -44,9 +99,12 @@ public class StockListActivity extends AppCompatActivity {
         listView.setAdapter(itemsAdapter);
 
         // Setup listView listeners
-        setupListViewListener();
+        setupListViewListener();*/
     }
 
+
+
+    /*
     private void setupListViewListener() {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long rowId)
@@ -91,6 +149,8 @@ public class StockListActivity extends AppCompatActivity {
             }
         });
     }
+    */
+
 
     public void onAddButtonClick(View v) {
         Intent intent = new Intent(StockListActivity.this, EditStockActivity.class);
@@ -124,9 +184,11 @@ public class StockListActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
 
                     // TODO 更新对应数据！！！！！！！！！
+                    Food food = new Food(userID,foodName,amount,expireDate);
+                    db.collection("food").document(foodName + "_" + userID).set(food);
 
-                    items.add(foodName);
-                    itemsAdapter.notifyDataSetChanged();        // Synchronize ListView
+
+
                 }
 
                 // If user cancelled editing
@@ -136,4 +198,27 @@ public class StockListActivity extends AppCompatActivity {
             }
     );
 
+    private class StockViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView list_food;
+        private TextView list_amount;
+
+        public StockViewHolder(@NonNull View itemView) {
+            super(itemView);
+            list_food = itemView.findViewById(R.id.list_food);
+            list_amount = itemView.findViewById(R.id.list_amount);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }
