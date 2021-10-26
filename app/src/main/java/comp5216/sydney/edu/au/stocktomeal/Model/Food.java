@@ -20,6 +20,14 @@ public class Food {
         this.userID = userID;
     }
 
+    public Food(String userID, String name, String amount, String picture, String time) {
+        this.userID = userID;
+        this.name = name;
+        this.amount = amount;
+        this.picture = picture;
+        this.time = time;
+    }
+
     public String getName() {
         return name;
     }
