@@ -8,15 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterViewFlipper;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,11 +61,11 @@ public class StockListActivity extends AppCompatActivity {
         //query current user stock status
         Query query = db.collection("food").whereEqualTo("userID",userID);
 
-       FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
+        FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
                 .setQuery(query,Food.class)
                 .build();
 
-       adapter = new FirestoreRecyclerAdapter<Food, StockViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<Food, StockViewHolder>(options) {
            @NonNull
            @Override
            public StockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -86,10 +84,54 @@ public class StockListActivity extends AppCompatActivity {
         firestoreList.setLayoutManager(new LinearLayoutManager(this));
         firestoreList.setAdapter(adapter);
 
+        setupRecyclerViewListener();
     }
 
+    private void setupRecyclerViewListener() {
+        firestoreList.addOnItemTouchListener(new RecyclerItemClickListener(StockListActivity.this, firestoreList, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Food model = (Food) adapter.getItem(position);
+                String stockName = model.getName();
+                String stockAmount = model.getAmount();
+                String stockTime = model.getTime();
+                Log.i("StockListActivity", "Clicked item " + position + ": " + stockName);
 
+                Intent intent = new Intent(StockListActivity.this, StockDetailActivity.class);
+                if (intent != null) {
+                    // put "extras" into the bundle for access in the detail activity
+                    intent.putExtra("stockName", stockName);
+                    intent.putExtra("stockAmount", stockAmount);
+                    intent.putExtra("stockTime", stockTime);
+                    intent.putExtra("position", position);
 
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onItemLongClick(View view, final int position) {
+                //Toast.makeText(StockListActivity.this,"长按",Toast.LENGTH_SHORT).show();
+                Log.i("StockListActivity", "Long Clicked item " + position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(StockListActivity.this);
+                builder.setTitle(R.string.dialog_delete_title)
+                        .setMessage(R.string.dialog_delete_msg)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                 // Remove item from the database
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User cancelled the dialog
+                                // Nothing happens
+                            }
+                        });
+
+                builder.create().show();
+            }
+        }));
+    }
 
     public void onAddButtonClick(View v) {
         Intent intent = new Intent(StockListActivity.this, EditStockActivity.class);
@@ -125,8 +167,6 @@ public class StockListActivity extends AppCompatActivity {
                     // Add new data to database
                     Food food = new Food(userID,foodName,amount,expireDate);
                     db.collection("food").document(foodName + "_" + userID).set(food);
-
-
 
                 }
 

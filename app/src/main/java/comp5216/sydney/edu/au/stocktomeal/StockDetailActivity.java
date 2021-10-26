@@ -20,14 +20,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+
 public class StockDetailActivity extends AppCompatActivity {
 
     private String stockName;
+    private String stockAmount;
+    private String stockTime;
 
     private TextView name;
-    private TextView weight;
-    private TextView bb;
-    private TextView ad;
+    private TextView amount;
+    private TextView expireDate;
     private TextView photo;
     private ImageView image;
     private Button edit;
@@ -45,19 +47,19 @@ public class StockDetailActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        stockName = getIntent().getStringExtra("stock");
+        stockName = getIntent().getStringExtra("stockName");
+        stockAmount = getIntent().getStringExtra("stockAmount");
+        stockTime = getIntent().getStringExtra("stockTime");
 
         name = (TextView) findViewById(R.id.stock_name);
-        weight = (TextView) findViewById(R.id.stock_weight);
-        bb = (TextView) findViewById(R.id.stock_bb);
-        ad = (TextView) findViewById(R.id.stock_ad);
+        amount = (TextView) findViewById(R.id.stock_amount);
+        expireDate = (TextView) findViewById(R.id.stock_expireDate);
         photo = (TextView) findViewById(R.id.stock_photo);
         edit = (Button) findViewById(R.id.edit);
 
         name.setText("Food name:    " + stockName);
-        weight.setText("Weight:    ");
-        bb.setText("Best before:    ");
-        ad.setText("Added date:    ");
+        amount.setText("Amount:          " + stockAmount);
+        expireDate.setText("Expire date:    " + stockTime);
         photo.setText("Photo:");
     }
 
