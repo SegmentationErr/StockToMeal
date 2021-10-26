@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class SearchResultActivity extends AppCompatActivity {
 
     private String keywords;
+    private String allery;
     public RequestQueue requestQueue;
 
     // Layout components
@@ -62,6 +63,7 @@ public class SearchResultActivity extends AppCompatActivity {
             startActivity(new Intent(SearchResultActivity.this,
                     RecipeRecommdationActivity.class) );
         }
+        allery = intent.getStringExtra("allery");
 
         searchAPIResult();
         setupListViewListener();
@@ -97,7 +99,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Log.d(TAG, error.toString());
                     }
                 });
@@ -119,6 +120,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     int index = recipes.indexOf(name);
                     intent.putExtra("id", ids.get(index));
                     intent.putExtra("search", keywords);
+                    intent.putExtra("allery", allery);
                     startActivity(intent);
                 }
             }

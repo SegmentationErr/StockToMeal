@@ -15,6 +15,9 @@
             android:name=".StockListActivity"
             android:exported="true" />
         <activity
+            android:name=".EditStockActivity"
+            android:exported="true" />
+        <activity
             android:name=".StockDetailActivity"
             android:exported="true" />
         <activity

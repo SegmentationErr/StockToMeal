@@ -2,9 +2,11 @@ package comp5216.sydney.edu.au.stocktomeal;
 
 import static android.content.ContentValues.TAG;
 
+import com.bumptech.glide.module.AppGlideModule;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -51,6 +54,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
     // The name of the recipe. Please do not upload the repeated recipes
     private String recipeId;
     private String keyword;
+    private String allery;
+
+    private boolean alleriedState;
 
     public RequestQueue requestQueue;
     private JSONArray ingredientsJson;
@@ -70,9 +76,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         keyword = intent.getStringExtra("search");
+        alleriedState = false;
 
         if (intent != null && intent.getStringExtra("id") != null) {
             recipeId = intent.getStringExtra("id");
+            allery = intent.getStringExtra("allery");
             Log.d(TAG,"Terminal Print IDs: " + recipeId);
         } else {
             Log.d(TAG, "Intent doesn't put any keywords in.");
@@ -89,6 +97,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
         flavour = (TextView) findViewById(R.id.flavour_text);
         image = (ImageView) findViewById(R.id.recipe_image);
         favourite = (Button) findViewById(R.id.like_it_button);
+
+        Log.d(TAG, "Allery: " + allery);
 
         getRecipeDetailsFromAPI();
 
@@ -123,15 +133,28 @@ public class RecipeDetailActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG,response.toString());
                         try {
-                            recipe.setText((String) response.get("title"));
-                            //image.setImageURI(Uri.parse(response.get("image").toString()));
+                            Glide.
+                                    with(RecipeDetailActivity.this).
+                                    load(response.get("image")).
+                                    into(image);
                             StringBuilder sb = new StringBuilder();
                             ingredientsJson = (JSONArray) response.get("extendedIngredients");
                             for (int i = 0; i < ingredientsJson.length(); i++) {
                                 JSONObject object = (JSONObject) ingredientsJson.get(i);
                                 sb.append(object.get("name").toString()+"\n");
+                                if (object.get("name").toString().toLowerCase().
+                                        equals(allery.toLowerCase())) {
+                                    alleriedState = true;
+                                }
                             }
                             ingredients.setText(sb.toString());
+                            if (alleriedState == true) {
+                                recipe.setText((String) response.
+                                        get("title") + "\n(This recipe contains allergens.)");
+                                recipe.setTextColor(Color.RED);
+                            } else {
+                                recipe.setText((String) response.get("title"));
+                            }
                             getTaste();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -142,7 +165,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Log.d(TAG, error.toString());
                     }
                 });
@@ -180,7 +202,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Log.d(TAG, error.toString());
                     }
                 });
@@ -219,7 +240,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Log.d(TAG, error.toString());
                     }
                 });

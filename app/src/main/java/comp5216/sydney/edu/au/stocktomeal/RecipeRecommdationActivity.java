@@ -12,8 +12,8 @@ public class RecipeRecommdationActivity extends AppCompatActivity {
 
     // Search method
     private EditText searchField;
+    private EditText allery;
     private Button searchButton;
-    private Button addButton;
     private Button stockButton;
     private Button favoriteButton;
 
@@ -24,8 +24,8 @@ public class RecipeRecommdationActivity extends AppCompatActivity {
 
         // search attribute
         searchField = (EditText) findViewById(R.id.search_field);
+        allery = (EditText) findViewById(R.id.allergy_field);
         searchButton = (Button) findViewById(R.id.search_button);
-        addButton = (Button) findViewById(R.id.add_button);
         stockButton = (Button) findViewById(R.id.stock_button);
         favoriteButton = (Button) findViewById(R.id.favorite_button);
 
@@ -35,14 +35,8 @@ public class RecipeRecommdationActivity extends AppCompatActivity {
                 Intent intent = new Intent(RecipeRecommdationActivity.this,
                         SearchResultActivity.class);
                 intent.putExtra("search", searchField.getText().toString());
+                intent.putExtra("allery", allery.getText().toString());
                 startActivity(intent);
-            }
-        });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
 

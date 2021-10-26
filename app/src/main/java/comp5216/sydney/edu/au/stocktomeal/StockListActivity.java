@@ -8,11 +8,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class StockListActivity extends AppCompatActivity {
 
@@ -85,4 +91,49 @@ public class StockListActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onAddButtonClick(View v) {
+        Intent intent = new Intent(StockListActivity.this, EditStockActivity.class);
+        if (intent != null) {
+            // put "extras" into the bundle for access in the detail activity
+
+            String currentDate = new SimpleDateFormat("yyyy - MM - dd", Locale.getDefault())
+                    .format(new Date());
+            intent.putExtra("foodName", "");
+            intent.putExtra("amount", "1");
+            intent.putExtra("expireDate", currentDate);
+
+            mLauncher.launch(intent);
+        }
+    }
+
+    // Initialise ActivityResultLauncher and setup callback function
+    ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                // If user successfully edit item and send data back
+                if (result.getResultCode() == RESULT_OK) {
+                    // Read all data from data intent sent from edit activity
+                    String foodName = result.getData().getStringExtra("foodName");
+                    String amount = result.getData().getStringExtra("amount");
+                    String expireDate = result.getData().getStringExtra("expireDate");
+
+                    // Show notification of update
+                    Toast.makeText(getApplicationContext(),
+                            "Added: " + foodName,
+                            Toast.LENGTH_SHORT).show();
+
+                    // TODO 更新对应数据！！！！！！！！！
+
+                    items.add(foodName);
+                    itemsAdapter.notifyDataSetChanged();        // Synchronize ListView
+                }
+
+                // If user cancelled editing
+                else if (result.getResultCode() == RESULT_CANCELED) {
+                    // Nothing to do
+                }
+            }
+    );
+
 }
