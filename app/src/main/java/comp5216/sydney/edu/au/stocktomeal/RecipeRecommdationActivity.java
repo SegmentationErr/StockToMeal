@@ -58,4 +58,12 @@ public class RecipeRecommdationActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onRecommendationButtonClick(View v) {
+        Intent intent = new Intent(RecipeRecommdationActivity.this,
+                SearchResultActivity.class);
+        intent.putExtra("search", "");
+        intent.putExtra("allery", "");
+        startActivity(intent);
+    }
 }

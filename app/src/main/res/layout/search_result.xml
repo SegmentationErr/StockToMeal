@@ -11,11 +11,11 @@
         android:id="@+id/title_search_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search Result"
-        android:layout_marginTop="0.3in"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="0.3in"
+        android:background="@color/sandybrown"
         android:padding="30px"
-        android:background="@color/sandybrown"/>
+        android:text="Results" />
     
     <ListView
         android:id="@+id/search_container"
