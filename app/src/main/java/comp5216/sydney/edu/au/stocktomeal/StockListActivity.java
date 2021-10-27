@@ -3,6 +3,8 @@ package comp5216.sydney.edu.au.stocktomeal;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,8 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 
-
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,13 +52,11 @@ public class StockListActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stock_list);
         firestoreList = findViewById(R.id.RecyclerList);
-
         //connect firestore
         db = FirebaseFirestore.getInstance();
         //connect auth, get current userID
@@ -74,10 +78,34 @@ public class StockListActivity extends AppCompatActivity {
                return new StockViewHolder(view);
            }
 
+           @RequiresApi(api = Build.VERSION_CODES.O)
            @Override
            protected void onBindViewHolder(@NonNull StockViewHolder holder, int position, @NonNull Food model) {
                holder.list_food.setText(model.getName());
                holder.list_amount.setText(model.getAmount());
+               holder.list_expire.setText(model.getTime());
+               DateFormat dateFormat = new SimpleDateFormat("yyyy - MM - dd");
+               Date date = new Date();
+               Calendar cal = Calendar.getInstance();
+               cal.add(Calendar.DATE, 1);
+               Date todate1 = cal.getTime();
+               String fromDate = dateFormat.format(todate1);
+               if (fromDate.equals(model.getTime())) {
+                   holder.list_expire.setText("One Day To Expire");     // About one day to expire
+                   holder.list_expire.setBackgroundColor(Color.YELLOW);
+               } else {
+                      // will not be expire in one day
+               }
+
+               LocalDate localDate = LocalDate.now();
+               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy - MM - dd");
+               String today = localDate.format(formatter);
+               if (today.equals(model.getTime())) {
+                   holder.list_expire.setText("Expires Today");     // Expires today
+                   holder.list_expire.setBackgroundColor(Color.RED);
+               } else {
+                   // will not be expire today
+               }
            }
        };
 
@@ -199,15 +227,18 @@ public class StockListActivity extends AppCompatActivity {
             }
     );
 
+
     private class StockViewHolder extends RecyclerView.ViewHolder{
 
         private TextView list_food;
         private TextView list_amount;
+        private TextView list_expire;
 
         public StockViewHolder(@NonNull View itemView) {
             super(itemView);
             list_food = itemView.findViewById(R.id.list_food);
             list_amount = itemView.findViewById(R.id.list_amount);
+            list_expire = itemView.findViewById(R.id.list_expire);
         }
     }
 
