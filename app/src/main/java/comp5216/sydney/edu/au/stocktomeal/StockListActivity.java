@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.stocktomeal;
 
 
+import static android.content.ContentValues.TAG;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.text.SimpleDateFormat;
@@ -43,6 +47,7 @@ public class StockListActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String userID;
     private FirebaseFirestore db;
+    private String testFoodName;
 
 
 
@@ -64,6 +69,28 @@ public class StockListActivity extends AppCompatActivity {
         FirestoreRecyclerOptions<Food> options = new FirestoreRecyclerOptions.Builder<Food>()
                 .setQuery(query,Food.class)
                 .build();
+
+
+
+        db.collection("food")
+                .whereEqualTo("userID",userID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task){
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document : task.getResult()) {
+
+                                Log.d(TAG, document.getId() + "=>" + document.getData());
+                                //这里取了food表里的name值
+                                testFoodName = (String) document.getString("name");
+                            }
+                        }
+                        else
+                            Log.d(TAG, "No such document",task.getException());
+                    }
+                });
+
 
         adapter = new FirestoreRecyclerAdapter<Food, StockViewHolder>(options) {
            @NonNull
