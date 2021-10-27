@@ -23,6 +23,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -185,8 +186,15 @@ public class StockListActivity extends AppCompatActivity {
                     String expireDate = result.getData().getStringExtra("expireDate");
                     int position = result.getData().getIntExtra("position", -1);
 
+                    // Show notification of update
+                    Toast.makeText(getApplicationContext(),
+                            "Updated",Toast.LENGTH_SHORT).show();
 
-                    // TODO 更新item !!!!!!!!!!!!!!!!!!!!!!!!
+                    // Update data from database
+                    DocumentReference stockRef = db.collection("food").document(foodName + "_" + userID);
+                    stockRef.update("name",foodName,"amount",amount,"time",expireDate,"picture",foodImage);
+
+
                 }
             }
     );

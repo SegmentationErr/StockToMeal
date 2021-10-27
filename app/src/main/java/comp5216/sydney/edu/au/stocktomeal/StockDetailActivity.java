@@ -79,9 +79,14 @@ public class StockDetailActivity extends AppCompatActivity {
 
     public void onEditSaveClick(View v) {
         // Read task name from text field
-        String currFoodName = name.getText().toString();
-        String currAmount = amount.getText().toString();
-        String currExpireDate = expireDate.getText().toString();
+        String FoodName = name.getText().toString();
+        String Amount = amount.getText().toString();
+        String ExpireDate = expireDate.getText().toString();
+
+        String currFoodName = FoodName.substring(14,FoodName.length());
+        String currAmount = Amount.substring(17,Amount.length());
+        String currExpireDate = ExpireDate.substring(16,ExpireDate.length());
+
 
         // Prepare data intent for sending it back
         Intent intent = new Intent();
@@ -126,7 +131,7 @@ public class StockDetailActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 // If user successfully edit item and send data back
-                if (result.getResultCode() == RESULT_OK) {
+                if (result.getResultCode() == 101) {
                     // Read all data from data intent sent from edit activity
                     String newFoodImage = result.getData().getStringExtra("foodImage");
                     String newFoodName = result.getData().getStringExtra("foodName");
@@ -140,13 +145,13 @@ public class StockDetailActivity extends AppCompatActivity {
                     amount.setText("Amount:          " + newAmount);
                     expireDate.setText("Expire date:    " + newExpireDate);
 
-                    // Update data from database
-                    DocumentReference stockRef = db.collection("food").document(newFoodName + "_" + userID);
-                    stockRef.update("name",newFoodName,"amount",newAmount,"time",newExpireDate);
+//                    // Update data from database
+//                    DocumentReference stockRef = db.collection("food").document(newFoodName + "_" + userID);
+//                    stockRef.update("name",newFoodName,"amount",newAmount,"time",newExpireDate);
 
                     // Show notification of update
                     Toast.makeText(getApplicationContext(),
-                            "Updated: " + newFoodName,
+                            "UpdatedInApp: " + newFoodName,
                             Toast.LENGTH_SHORT).show();
                 }
 
