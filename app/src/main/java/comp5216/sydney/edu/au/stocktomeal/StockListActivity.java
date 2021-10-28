@@ -85,14 +85,14 @@ public class StockListActivity extends AppCompatActivity {
                holder.list_amount.setText(model.getAmount());
                holder.list_expire.setText(model.getTime());
                DateFormat dateFormat = new SimpleDateFormat("yyyy - MM - dd");
-               Date date = new Date();
                Calendar cal = Calendar.getInstance();
                cal.add(Calendar.DATE, 1);
                Date todate1 = cal.getTime();
                String fromDate = dateFormat.format(todate1);
                if (fromDate.equals(model.getTime())) {
                    holder.list_expire.setText("One Day To Expire");     // About one day to expire
-                   holder.list_expire.setBackgroundColor(Color.YELLOW);
+                   holder.list_expire.setBackgroundColor(Color.rgb(246, 155, 0));
+                   holder.list_expire.setTextColor(Color.WHITE);
                } else {
                       // will not be expire in one day
                }
@@ -102,7 +102,8 @@ public class StockListActivity extends AppCompatActivity {
                String today = localDate.format(formatter);
                if (today.equals(model.getTime())) {
                    holder.list_expire.setText("Expires Today");     // Expires today
-                   holder.list_expire.setBackgroundColor(Color.RED);
+                   holder.list_expire.setBackgroundColor(Color.rgb(246, 97, 0));
+                   holder.list_expire.setTextColor(Color.WHITE);
                } else {
                    // will not be expire today
                }

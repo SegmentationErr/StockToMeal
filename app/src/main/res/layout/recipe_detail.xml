@@ -13,11 +13,13 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recipe Detail"
-            android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
             android:padding="30px"
-            android:background="@color/sandybrown"/>
+            android:textColor="@color/orange"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Recipe Detail" />
 
         <TextView
             android:id="@+id/recipe_name_detail"

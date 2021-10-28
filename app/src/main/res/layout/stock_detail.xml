@@ -9,11 +9,13 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stock Detail"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/orange"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:padding="30px"
-        android:background="@color/sandybrown"/>
+        android:text="Stock Detail" />
 
     <TextView
         android:id="@+id/stock_name"
@@ -69,6 +71,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="683dp"
         android:onClick="onEditSaveClick"
+        android:backgroundTint="@color/yellow"
         android:text="Save" />
 
 </RelativeLayout>

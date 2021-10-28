@@ -11,11 +11,13 @@
         android:id="@+id/title_favorite_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorite list"
-        android:layout_marginTop="0.3in"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="0.3in"
         android:padding="30px"
-        android:background="@color/sandybrown"/>
+        android:text="Favorite list"
+        android:textColor="@color/orange"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Fav_RecyclerList"
